@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
+      <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Core\Entities\Entities.csproj" />
+    </ItemGroup>
+
+</Project>
