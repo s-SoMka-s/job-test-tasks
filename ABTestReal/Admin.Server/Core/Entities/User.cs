@@ -10,8 +10,8 @@ namespace Entities
         public User()
         {
             Id = 0;
-            RegistrationDate = DateTimeOffset.Now;
-            LastActivityDate = DateTimeOffset.Now;
+            RegistrationDate = DateTimeOffset.UtcNow;
+            LastActivityDate = DateTimeOffset.UtcNow;
         }
         
         

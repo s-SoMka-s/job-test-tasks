@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using System;
+using Entities;
 
 namespace Api.Users.Models.Input
 {
@@ -11,8 +12,8 @@ namespace Api.Users.Models.Input
         {
             return new User()
             {
-                RegistrationDate = RegistrationDate,
-                LastActivityDate = LastActivityDate
+                RegistrationDate = DateTimeOffset.Now,
+                LastActivityDate = DateTimeOffset.Now
             };
         }
     }

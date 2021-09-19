@@ -8,7 +8,12 @@ namespace Api
         public static IServiceCollection AddApi(this IServiceCollection services)
         {
             services.AddCors();
-            services.AddMvc().AddControllersAsServices();
+
+            services.AddMvc(options =>
+            {
+                options.EnableEndpointRouting = false;
+            })
+                .AddControllersAsServices();
 
             return services;
         }
@@ -18,6 +23,8 @@ namespace Api
             app.UseCors(builder => builder.AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod());
+
+            app.UseMvc();
         }
     }
 }
