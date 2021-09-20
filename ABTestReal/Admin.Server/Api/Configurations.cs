@@ -8,11 +8,12 @@ namespace Api
         public static IServiceCollection AddApi(this IServiceCollection services)
         {
             services.AddCors();
-
+            
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
             })
+                .AddNewtonsoftJson()
                 .AddControllersAsServices();
 
             return services;

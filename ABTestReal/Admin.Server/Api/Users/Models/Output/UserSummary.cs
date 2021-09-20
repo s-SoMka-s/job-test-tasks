@@ -1,6 +1,6 @@
-﻿using System;
-using Entities;
+﻿using Entities;
 using Newtonsoft.Json;
+using Tools.Time;
 
 namespace Api.Users.Models.Output
 {
@@ -9,18 +9,18 @@ namespace Api.Users.Models.Output
         public UserSummary(User source)
         {
             Id = source.Id;
-            RegistrationDate = source.RegistrationDate;
-            LastActivityDate = source.LastActivityDate;
+            RegistrationDate = source.RegistrationDate.ToTimestamp();
+            LastActivityDate = source.LastActivityDate.ToTimestamp();
         }
         
         
         [JsonProperty("id")]
         public long Id { get; }
         
-        [JsonProperty("registration-date")]
-        public DateTimeOffset RegistrationDate { get; }
+        [JsonProperty("registration_date")]
+        public long RegistrationDate { get; }
         
-        [JsonProperty("last-activity-date")]
-        public DateTimeOffset LastActivityDate { get; }
+        [JsonProperty("last_activity_date")]
+        public long LastActivityDate { get; }
     }
 }
