@@ -34,6 +34,11 @@ namespace Api.Users
         [HttpPost("")]
         public async Task<UserSummary> Add([FromBody] NewUserParameters parameters)
         {
+            if (parameters.LastActivityDate < parameters.RegistrationDate || parameters.LastActivityDate < 1 || parameters.RegistrationDate < 1)
+            {
+                return null;
+            }
+
             var @new = parameters.Build();
             
             var added = await _users.AddAsync(@new);
@@ -60,8 +65,8 @@ namespace Api.Users
         [HttpGet("rolling_retention")]
         public double GetRollingRetention()
         {
-            var registeredWeekAgoOrEarly = _users.Select(u => DateTimeOffset.UtcNow.AddDays(-7) < u.RegistrationDate).Count();
-            var lastVisitWeekAgoOrLater = _users.Select(u => DateTimeOffset.UtcNow.AddDays(-7) > u.LastActivityDate).Count();
+            var registeredWeekAgoOrEarly = _users.Select(u => DateTimeOffset.UtcNow.AddDays(-7) >= u.RegistrationDate).Count();
+            var lastVisitWeekAgoOrLater = _users.Select(u => DateTimeOffset.UtcNow.AddDays(-7) <= u.LastActivityDate).Count();
 
             return lastVisitWeekAgoOrLater / registeredWeekAgoOrEarly;
         }
