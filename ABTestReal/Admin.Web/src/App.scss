@@ -1,0 +1,86 @@
+@mixin font-base {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.app {
+    text-align: center;
+
+    h1 {
+        @include font-base();
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    &__header {
+        background-color: white;
+        box-shadow: 6px 5px 6px rgba(0, 0, 0, 0.25);
+        min-height: 50px;
+
+        &-wrapper {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 1400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        &-input-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input {
+            border-radius: 20px;
+            width: 170px;
+            height: 30px;
+            margin-right: 40px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 4px 3px 4px rgba(0, 0, 0, 0.25);
+
+            &:focus {
+                outline-width: 0;
+            }
+        }
+
+        button {
+            width: 170px;
+            height: 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            background-color: white;
+            @include font-base();
+            font-size: 18px;
+
+            box-shadow: 4px 3px 4px rgba(0, 0, 0, 0.25);
+        }
+    }
+
+    &__body {
+        margin-top: 20px;
+        &-wrapper {
+            max-width: 1400px;
+            margin-right: auto;
+            margin-left: auto;
+
+            display: flex;
+            justify-content: space-between;
+
+            table {
+                @include font-base();
+                min-width: 450px;
+            }
+
+            h1 {
+                width: 100%;
+                @include font-base();
+                font-size: 25px;
+                font-weight: 700;
+            }
+        }
+    }
+}

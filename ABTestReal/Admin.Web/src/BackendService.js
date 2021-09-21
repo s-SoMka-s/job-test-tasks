@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export class BackendService {
     constructor() {
@@ -17,6 +17,6 @@ export class BackendService {
     }
 
     getRollingRetention() {
-        return this.client.get('/rolling_retention')
+        return this.client.get('/users/rolling_retention')
     }
 }
