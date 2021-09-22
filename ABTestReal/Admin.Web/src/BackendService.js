@@ -21,6 +21,6 @@ export class BackendService {
     }
 
     deleteUsers(userIds) {
-        return this.client.delete(`/users`, userIds)
+        return this.client.delete(`/users`, { user_ids: userIds })
     }
 }
