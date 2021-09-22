@@ -19,4 +19,8 @@ export class BackendService {
     getRollingRetention() {
         return this.client.get('/users/rolling_retention')
     }
+
+    deleteUsers(userIds) {
+        return this.client.delete(`/users`, userIds)
+    }
 }
