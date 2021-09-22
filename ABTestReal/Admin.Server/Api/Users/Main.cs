@@ -48,9 +48,9 @@ namespace Api.Users
         }
 
         [HttpDelete]
-        public async Task<bool> DeleteAsync(long[] ids)
+        public async Task<bool> DeleteAsync([FromBody] UserDeleteParameters parameters)
         {
-            return await deleteAllUsersAsync(ids);
+            return await deleteAllUsersAsync(parameters.UserIds);
         }
 
         [HttpGet("rolling_retention")]
