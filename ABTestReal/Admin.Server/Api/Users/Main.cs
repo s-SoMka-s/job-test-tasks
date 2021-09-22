@@ -47,7 +47,7 @@ namespace Api.Users
             return new UserSummary(added.Entity);
         }
 
-        [HttpDelete]
+        [HttpPost("/delete")]
         public async Task<bool> DeleteAsync([FromBody] UserDeleteParameters parameters)
         {
             return await deleteAllUsersAsync(parameters.UserIds);
