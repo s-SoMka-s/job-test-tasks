@@ -1,0 +1,131 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "resourceGroupName": {
+      "type": "string",
+      "defaultValue": "App20210922001154ResourceGroup",
+      "metadata": {
+        "_parameterType": "resourceGroup",
+        "description": "Имя группы ресурсов для ресурса. Рекомендуется поместить ресурсы в одну группу ресурсов для более удобного отслеживания."
+      }
+    },
+    "resourceGroupLocation": {
+      "type": "string",
+      "defaultValue": "southcentralus",
+      "metadata": {
+        "_parameterType": "location",
+        "description": "Расположение группы ресурсов. Группы ресурсов и ресурсы могут находиться в различных расположениях."
+      }
+    },
+    "resourceLocation": {
+      "type": "string",
+      "defaultValue": "[parameters('resourceGroupLocation')]",
+      "metadata": {
+        "_parameterType": "location",
+        "description": "Расположение ресурса. По умолчанию используется расположение группы ресурсов, если это не поддерживается поставщиком ресурсов."
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Resources/resourceGroups",
+      "name": "[parameters('resourceGroupName')]",
+      "location": "[parameters('resourceGroupLocation')]",
+      "apiVersion": "2019-10-01"
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "name": "[concat(parameters('resourceGroupName'), 'Deployment', uniqueString(concat('App', subscription().subscriptionId)))]",
+      "resourceGroup": "[parameters('resourceGroupName')]",
+      "apiVersion": "2019-10-01",
+      "dependsOn": [
+        "[parameters('resourceGroupName')]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": [
+            {
+              "name": "admin-api",
+              "type": "Microsoft.ApiManagement/service",
+              "location": "[parameters('resourceLocation')]",
+              "properties": {
+                "publisherEmail": "elenalazuto@mail.ru",
+                "publisherName": "Игорь",
+                "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
+                "hostnameConfigurations": [
+                  {
+                    "type": "Proxy",
+                    "hostName": "admin-api.azure-api.net",
+                    "encodedCertificate": null,
+                    "keyVaultId": null,
+                    "certificatePassword": null,
+                    "negotiateClientCertificate": false,
+                    "certificate": null,
+                    "defaultSslBinding": true
+                  }
+                ],
+                "publicIPAddresses": null,
+                "privateIPAddresses": null,
+                "additionalLocations": null,
+                "virtualNetworkConfiguration": null,
+                "customProperties": {
+                  "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": "False",
+                  "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": "False",
+                  "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": "False",
+                  "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": "False",
+                  "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": "False",
+                  "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "False"
+                },
+                "virtualNetworkType": "None",
+                "certificates": null,
+                "apiVersionConstraint": {
+                  "minApiVersion": null
+                }
+              },
+              "sku": {
+                "name": "Consumption",
+                "capacity": 0
+              },
+              "apiVersion": "2019-12-01"
+            },
+            {
+              "type": "Microsoft.ApiManagement/service/apis",
+              "name": "admin-api/App",
+              "properties": {
+                "displayName": "App",
+                "apiRevision": "1",
+                "description": null,
+                "subscriptionRequired": true,
+                "serviceUrl": null,
+                "path": "admin",
+                "protocols": [
+                  "https"
+                ],
+                "authenticationSettings": {
+                  "oAuth2": null,
+                  "openid": null
+                },
+                "subscriptionKeyParameterNames": {
+                  "header": "Ocp-Apim-Subscription-Key",
+                  "query": "subscription-key"
+                },
+                "isCurrent": true
+              },
+              "apiVersion": "2019-12-01",
+              "dependsOn": [
+                "admin-api"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "_dependencyType": "apis.azure"
+  }
+}

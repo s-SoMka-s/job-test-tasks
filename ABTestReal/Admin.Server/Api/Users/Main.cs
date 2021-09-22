@@ -47,19 +47,10 @@ namespace Api.Users
             return new UserSummary(added.Entity);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<bool> DeleteAsync([FromQuery] long id)
+        [HttpDelete]
+        public async Task<bool> DeleteAsync(long[] ids)
         {
-            var existed = await _users.FirstOrDefaultAsync(e => e.Id == id);
-            if (default == existed)
-            {
-                return false;
-            }
-
-            _users.Remove(existed);
-            await _context.SaveChangesAsync();
-
-            return true;
+            return await deleteAllUsersAsync(ids);
         }
 
         [HttpGet("rolling_retention")]
@@ -69,6 +60,28 @@ namespace Api.Users
             var lastVisitWeekAgoOrLater = _users.Select(u => DateTimeOffset.UtcNow.AddDays(-7) <= u.LastActivityDate).Count();
 
             return lastVisitWeekAgoOrLater / registeredWeekAgoOrEarly;
+        }
+
+
+        private async Task<bool> deleteAllUsersAsync(long[] ids)
+        {
+            var flag = true;
+            foreach(var id in ids)
+            {
+                var existed = await _users.FirstOrDefaultAsync(e => e.Id == id);
+                if (default != existed)
+                {
+                    _users.Remove(existed);
+                    await _context.SaveChangesAsync();
+                    
+                }
+                else
+                {
+                    flag = false;
+                }
+            }
+
+            return flag;
         }
     }
 }
