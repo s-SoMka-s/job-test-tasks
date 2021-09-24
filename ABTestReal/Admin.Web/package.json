@@ -14,6 +14,7 @@
         "@testing-library/user-event": "^12.8.3",
         "axios": "^0.21.4",
         "date-fns": "^2.24.0",
+        "dotenv": "^10.0.0",
         "node-sass": "^6.0.1",
         "react": "^17.0.2",
         "react-dialog": "^1.0.2",

@@ -3,7 +3,7 @@ import axios from 'axios'
 export class BackendService {
     constructor() {
         this.client = axios.create({
-            baseURL: 'https://app20210922001154.azurewebsites.net',
+            baseURL: process.env.REACT_APP_BACKEND,
             timeout: 10000,
         })
     }
