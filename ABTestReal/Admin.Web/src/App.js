@@ -27,11 +27,9 @@ function App() {
                 <Route exact path="/auth">
                     <Auth></Auth>
                 </Route>
-                <PrivateRoute
-                    exact
-                    path="/pages"
-                    component={Pages}
-                ></PrivateRoute>
+                <Route path="/pages">
+                    <Pages></Pages>
+                </Route>
                 <Route exact path="/component-preview">
                     <ComponentPreview></ComponentPreview>
                 </Route>

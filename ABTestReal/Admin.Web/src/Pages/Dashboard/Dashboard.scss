@@ -1,0 +1,29 @@
+@import '../../shared/scss/variables';
+@import '../../shared/scss/fonts';
+
+.dashboard-page {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    &-wrapper {
+        width: 1140px;
+
+        margin-top: 54px;
+
+        &__header {
+            display: flex;
+            justify-content: space-between;
+
+            button {
+                margin: 35px 60px 35px 0;
+            }
+        }
+    }
+
+    h1 {
+        @include font-header;
+        color: $color-text-header;
+        text-transform: uppercase;
+    }
+}

@@ -8,6 +8,7 @@ import {
     Route,
     Link,
     Redirect,
+    useRouteMatch,
     useHistory,
     useLocation,
 } from 'react-router-dom'
@@ -20,10 +21,19 @@ import Profile from './Profile/Profile'
 import Sidebar from '../shared/components/Sidebar/Sidebar'
 
 export default function Pages() {
+    let { path, url } = useRouteMatch()
+
     return (
         <div className="pages">
             <Header></Header>
             <Sidebar></Sidebar>
+            <div className="content">
+                <Switch>
+                    <Route exact path={`${path}/dashboard`}>
+                        <Dashboard></Dashboard>
+                    </Route>
+                </Switch>
+            </div>
         </div>
     )
 }

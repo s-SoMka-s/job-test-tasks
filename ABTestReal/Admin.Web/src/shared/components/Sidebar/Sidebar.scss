@@ -1,12 +1,19 @@
+@import '../../scss/variables';
+@import '../../scss/fonts';
+
 .sidebar {
-    max-width: 60px;
-    background: green;
+    background: $color-element-bg;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     &-wrapper {
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        &__delimeter {
+            width: 100%;
+            border-bottom: 0.5px solid $color-delimeter;
+        }
 
         & > * {
             margin-top: 15px;

@@ -1,4 +1,28 @@
+@import '../shared/scss/variables';
+@import '../shared/scss/fonts';
+
 .pages {
-    height: 100vh;
-    background: chocolate;
+    min-height: 100vh;
+
+    background: $color-bg;
+
+    display: grid;
+    grid-template-columns: 60px 1fr 1fr;
+    grid-template-rows: 60px 1fr 1fr;
+    grid-template-areas:
+        'header header header'
+        'sidebar body body'
+        'sidebar body body';
+
+    .header {
+        grid-area: header;
+    }
+
+    .sidebar {
+        grid-area: sidebar;
+    }
+
+    .content {
+        grid-area: body;
+    }
 }

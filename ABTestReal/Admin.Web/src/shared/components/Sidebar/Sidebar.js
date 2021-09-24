@@ -19,9 +19,15 @@ export default function Sidebar() {
     return (
         <div className="sidebar">
             <div className="sidebar-wrapper">
-            <Link to="/pages/profile"><img src={UserIcon}></img></Link>
-            <Link to="/pages/dashboard"><img src={ObserverIcon}></img></Link>
-        </div>
+                <Link to="/pages/profile">
+                    <img src={UserIcon}></img>
+                </Link>
+                <div className="sidebar-wrapper__delimeter"></div>
+                <Link to="/pages/dashboard">
+                    <img src={ObserverIcon}></img>
+                </Link>
+                <div className="sidebar-wrapper__delimeter"></div>
+            </div>
         </div>
     )
 }
