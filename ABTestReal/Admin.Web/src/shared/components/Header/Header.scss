@@ -7,6 +7,7 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     &-wrapper {
+        height: 60px;
         margin-left: auto;
         margin-right: auto;
         max-width: 1400px;
@@ -21,7 +22,6 @@
         }
 
         &__icons {
-            
             img {
                 width: 25px;
                 height: 25px;

@@ -2,8 +2,8 @@ import './Header.scss'
 
 import React from 'react'
 
-import ExitIcon from '../../assets/img/svg/ExitIcon.svg'
 import UserIcon from '../../assets/img/svg/UserIcon.svg'
+import ExitIcon from '../../assets/img/svg/ExitIcon.svg'
 
 export default function Header() {
     return (
@@ -11,8 +11,8 @@ export default function Header() {
             <div className="header-wrapper">
                 <h1 className="header-wrapper__logo">AB TEST REAL</h1>
                 <div className="header-wrapper__icons">
-                    <img src={ExitIcon}></img>
                     <img src={UserIcon}></img>
+                    <img src={ExitIcon}></img>
                 </div>
             </div>
         </div>

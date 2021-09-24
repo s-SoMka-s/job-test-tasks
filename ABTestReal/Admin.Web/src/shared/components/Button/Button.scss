@@ -1,0 +1,13 @@
+@import '../../scss/variables';
+@import '../../scss/fonts';
+
+button {
+    height: 38px;
+    width: 98px;
+
+    cursor: pointer;
+    color: $color-element-bg;
+    background: $color-button;
+    //border: none;
+    border-radius: 10px;
+}
