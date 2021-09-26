@@ -5,9 +5,40 @@ button {
     height: 38px;
     width: 98px;
 
+    img {
+        display: none;
+    }
+
+    display: inline-flex;
+    justify-content: center; /* center the content horizontally */
+    align-items: center; /* center the content vertically */
+
     cursor: pointer;
     color: $color-element-bg;
     background: $color-button;
-    //border: none;
+
     border-radius: 10px;
+
+    @include font-main;
+}
+
+button.text-type {
+    width: 116px;
+
+    cursor: pointer;
+
+    background: none;
+
+    border: none;
+
+    @include font-main;
+
+    color: $color-text-element;
+}
+
+button.icon-type {
+    img {
+        display: inline;
+        margin-right: 10px;
+    }
 }

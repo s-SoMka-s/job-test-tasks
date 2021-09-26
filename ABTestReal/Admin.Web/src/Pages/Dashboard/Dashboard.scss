@@ -19,6 +19,29 @@
                 margin: 35px 60px 35px 0;
             }
         }
+
+        table + button {
+            margin-top: 25px;
+        }
+
+        &__new-row {
+            margin-top: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            img {
+                cursor: pointer;
+            }
+
+            &:first-child {
+                margin-left: 65px;
+            }
+
+            &:last-child {
+                margin-right: 65px;
+            }
+        }
     }
 
     h1 {
