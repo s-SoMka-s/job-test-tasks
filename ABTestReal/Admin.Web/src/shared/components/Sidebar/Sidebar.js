@@ -2,15 +2,7 @@ import './Sidebar.scss'
 
 import React from 'react'
 
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    Redirect,
-    useHistory,
-    useLocation,
-} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import UserIcon from '../../assets/img/svg/UserIcon.svg'
 import ObserverIcon from '../../assets/img/svg/ObserverIcon.svg'
@@ -20,11 +12,11 @@ export default function Sidebar() {
         <div className="sidebar">
             <div className="sidebar-wrapper">
                 <Link to="/pages/profile">
-                    <img src={UserIcon}></img>
+                    <img src={UserIcon} alt="user-icon"></img>
                 </Link>
                 <div className="sidebar-wrapper__delimeter"></div>
                 <Link to="/pages/dashboard">
-                    <img src={ObserverIcon}></img>
+                    <img src={ObserverIcon} alt="observer-icon"></img>
                 </Link>
                 <div className="sidebar-wrapper__delimeter"></div>
             </div>

@@ -3,16 +3,14 @@ import './Button.scss'
 import * as React from 'react'
 
 export default function Button({
-    isTextType: isTextType = false,
-    hasIcon: hasIcon = false,
-    icon: icon,
-    onClick: onClick,
-    children: children,
+    isTextType = false,
+    hasIcon = false,
+    icon,
+    onClick,
+    children,
     ...rest
 }) {
     const classStr = []
-
-    console.log(rest)
 
     if (isTextType) {
         classStr.push('text-type')
@@ -23,7 +21,7 @@ export default function Button({
 
     return (
         <button className={classStr.join(' ')} onClick={onClick}>
-            <img src={icon}></img>
+            <img src={icon} alt="custom-icon"></img>
             {children}
         </button>
     )

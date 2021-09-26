@@ -6,20 +6,20 @@ export class UserService {
     }
 
     get() {
-        return this.backend.get('/api/users')
+        return this.backend.get('/users')
     }
 
     add(data) {
-        return this.backend.add('/api/users', data)
+        return this.backend.add('/users', data)
     }
 
     delete(ids) {
-        const params = ids.map((id) => `user_id=${id}`)
+        const params = ids.map((id) => `user_ids=${id}`)
 
-        return this.backend.delete(`/api/users/${params.join('&')}`)
+        return this.backend.delete(`/users?${params.join('&')}`)
     }
 
     getRollingRetention() {
-        return this.client.get('/api/users/rolling_retention')
+        return this.backend.get('/users/rolling_retention')
     }
 }

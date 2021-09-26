@@ -8,45 +8,49 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 
 import Button from '../../shared/components/Button/Button'
-import Input from '../../shared/components/Input/Input'
+import NewRow from '../../shared/components/NewRow/NewRow'
 import Table from '../../shared/components/Table/Table'
 
 import AddIcon from '../../shared/assets/img/svg/AddIcon.svg'
-import DeleteIcon from '../../shared/assets/img/svg/DeleteIcon.svg'
 
 import { BarChartService } from '../../shared/services/barChart.service'
 import { UserService } from '../../shared/services/user.service'
 
 export default function Dashboard() {
-    const [users, setUsers] = React.useState([])
+    const [users, setUsers] = React.useState(null)
+    const [rollingRetention, setRollingRetention] = React.useState(0)
+
     const [dialogOpened, setDialogOpened] = React.useState(false)
     const [onNewRowClicked, setOnNewRowClicked] = React.useState(false)
 
     const barCharService = new BarChartService([])
     const userService = new UserService()
 
-    const headers = ['ID', 'Registration date', 'Last Activity date']
-    const body = [
-        [1, '12.12.1212', '12.12.1212'],
-        [1, '12.12.1212', '12.12.1212'],
-        [1, '12.12.1212', '12.12.1212'],
-        [1, '12.12.1212', '12.12.1212'],
-        [1, '12.12.1212', '12.12.1212'],
-        [1, '12.12.1212', '12.12.1212'],
-    ]
+    React.useEffect(() => {
+        userService.get().then((data) => setUsers(data))
+    }, [])
 
-    const data = barCharService.prepareData()
-
+    const data = barCharService.prepareData(users)
     const options = barCharService.options
 
     const toggleDialogWindow = () => setDialogOpened(!dialogOpened)
 
-    const onNewRowToggle = () => setOnNewRowClicked(!onNewRowClicked)
+    const getRollingRetention = () => {
+        userService
+            .getRollingRetention()
+            .then((data) => setRollingRetention(data))
+    }
 
     const addNewUser = (data) => {
-        userService.add(data).then((user) => {
-            setUsers(users.push(user))
-            setOnNewRowClicked(!onNewRowClicked)
+        userService.add(data).then((users) => {
+            setUsers(users)
+            setOnNewRowClicked(false)
+        })
+    }
+
+    const deleteUsers = (ids) => {
+        userService.delete(ids).then((users) => {
+            setUsers(users)
         })
     }
 
@@ -55,29 +59,34 @@ export default function Dashboard() {
             <div className="dashboard-page-wrapper">
                 <div className="dashboard-page-wrapper__header">
                     <h1>Users' activity</h1>
-                    <Button onClick={toggleDialogWindow}>Calculate</Button>
+                    <Button
+                        onClick={() => {
+                            toggleDialogWindow()
+                            getRollingRetention()
+                        }}
+                    >
+                        Calculate
+                    </Button>
                 </div>
                 <Table
-                    headers={headers}
-                    body={body}
-                    onDelete={(val) => console.log('Delete row with id: ', val)}
+                    elements={users}
+                    onDelete={(id) => deleteUsers([id])}
                 ></Table>
-                {(onNewRowClicked && (
+                {!onNewRowClicked && (
                     <Button
                         hasIcon={true}
                         isTextType={true}
                         icon={AddIcon}
-                        onClick={onNewRowToggle}
+                        onClick={() => setOnNewRowClicked(true)}
                     >
                         Add Row
                     </Button>
-                )) || (
-                    <div className="dashboard-page-wrapper__new-row">
-                        <img src={DeleteIcon} onClick={onNewRowToggle}></img>
-                        <Input></Input>
-                        <Input></Input>
-                        <img src={AddIcon} onClick={onNewRowToggle}></img>
-                    </div>
+                )}
+                {onNewRowClicked && (
+                    <NewRow
+                        onClose={() => setOnNewRowClicked(false)}
+                        onCreate={addNewUser}
+                    ></NewRow>
                 )}
             </div>
 
@@ -88,7 +97,7 @@ export default function Dashboard() {
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    {`Rolling Retention 7 day: 12%`}
+                    {`Rolling Retention 7 day: ${rollingRetention * 100}%`}
                 </DialogTitle>
                 <DialogContent>
                     <Bar data={data} options={options} />

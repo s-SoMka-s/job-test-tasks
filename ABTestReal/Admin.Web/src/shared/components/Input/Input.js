@@ -1,12 +1,30 @@
 import './Input.scss'
 import * as React from 'react'
 
-export default function Input({ type: type, placeholder: placeholder }) {
+import InputMask from 'react-input-mask'
+
+export default function Input({
+    type,
+    value,
+    placeholder,
+    mask,
+    onChange,
+    hasErrors,
+}) {
+    let className = ''
+
+    if (hasErrors) {
+        className = 'error'
+    }
+
     return (
-        <input
+        <InputMask
+            mask={mask}
             type={type}
-            className="full-width error"
+            value={value}
             placeholder={placeholder}
-        ></input>
+            onChange={onChange}
+            className={className}
+        ></InputMask>
     )
 }

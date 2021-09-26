@@ -15,13 +15,28 @@ export class BarChartService {
         }
     }
 
-    prepareData() {
+    prepareData(users) {
+        if (!users) {
+            return
+        }
+
+        const res = {}
+        users.map((user) => {
+            let diff = user.last_activity_date - user.registration_date
+            let diffDays = diff / (60 * 60 * 24)
+
+            if (res[diffDays]) {
+                res[diffDays] += 1
+            } else {
+                res[diffDays] = 1
+            }
+        })
         const data = {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: Object.keys(res),
             datasets: [
                 {
-                    label: '# user`s lifespan',
-                    data: [12, 19, 3, 5, 2, 3],
+                    label: 'users count',
+                    data: Object.values(res),
                     backgroundColor: ['#5D6D97'],
                 },
             ],

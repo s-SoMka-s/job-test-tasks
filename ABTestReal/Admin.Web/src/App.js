@@ -1,21 +1,17 @@
 import './App.scss'
 import 'react-toastify/dist/ReactToastify.css'
 
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
     Redirect,
-    useHistory,
-    useLocation,
 } from 'react-router-dom'
 
 import Auth from './pages/Auth/Auth'
 import Pages from './pages/Pages'
 import ComponentPreview from './pages/ComponentPreview/ComponentPreview'
-import PrivateRoute from './shared/components/PrivateRoute/PrivateRoute'
 //
 function App() {
     return (

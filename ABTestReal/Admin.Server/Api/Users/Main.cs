@@ -24,15 +24,15 @@ namespace Api.Users
         }
 
         [HttpGet("")]
-        public Task<UserSummary[]> GetAll()
+        public async Task<UserSummary[]> GetAll()
         {
-            var summaries = _users.Select(u => new UserSummary(u)).ToArrayAsync();
+            var summaries = await _users.Select(u => new UserSummary(u)).ToArrayAsync();
 
             return summaries;
         }
 
         [HttpPost("")]
-        public async Task<UserSummary> Add([FromBody] NewUserParameters parameters)
+        public async Task<UserSummary[]> Add([FromBody] NewUserParameters parameters)
         {
             if (parameters.LastActivityDate < parameters.RegistrationDate || parameters.LastActivityDate < 1 || parameters.RegistrationDate < 1)
             {
@@ -41,16 +41,18 @@ namespace Api.Users
 
             var @new = parameters.Build();
             
-            var added = await _users.AddAsync(@new);
+            await _users.AddAsync(@new);
             await _context.SaveChangesAsync();
 
-            return new UserSummary(added.Entity);
+            return await _users.Select(u => new UserSummary(u)).ToArrayAsync();
         }
 
-        [HttpPost("/delete")]
-        public async Task<bool> DeleteAsync([FromBody] UserDeleteParameters parameters)
+        [HttpDelete("")]
+        public async Task<UserSummary[]> DeleteAsync([FromQuery] UserSelectParameters parameters)
         {
-            return await deleteAllUsersAsync(parameters.UserIds);
+            await DeleteAllUsersAsync(parameters.UserIds);
+            
+            return await _users.Select(u => new UserSummary(u)).ToArrayAsync();
         }
 
         [HttpGet("rolling_retention")]
@@ -63,7 +65,7 @@ namespace Api.Users
         }
 
 
-        private async Task<bool> deleteAllUsersAsync(long[] ids)
+        private async Task<bool> DeleteAllUsersAsync(long[] ids)
         {
             var flag = true;
             foreach(var id in ids)
