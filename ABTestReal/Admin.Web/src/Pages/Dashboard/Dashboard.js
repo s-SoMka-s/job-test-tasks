@@ -96,9 +96,9 @@ export default function Dashboard() {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
-                    {`Rolling Retention 7 day: ${rollingRetention * 100}%`}
-                </DialogTitle>
+                <DialogTitle id="alert-dialog-title">{`Rolling Retention 7 day: ${
+                    rollingRetention / 100
+                }%`}</DialogTitle>
                 <DialogContent>
                     <Bar data={data} options={options} />
                 </DialogContent>

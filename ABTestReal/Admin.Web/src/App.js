@@ -18,7 +18,7 @@ function App() {
         <Router>
             <Switch>
                 <Route exact path="/">
-                    <Redirect to="/pages"></Redirect>
+                    <Redirect to="/auth"></Redirect>
                 </Route>
                 <Route exact path="/auth">
                     <Auth></Auth>

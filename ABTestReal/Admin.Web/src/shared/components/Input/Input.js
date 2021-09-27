@@ -10,11 +10,15 @@ export default function Input({
     mask,
     onChange,
     hasErrors,
+    fullWidth,
 }) {
-    let className = ''
+    let className = []
 
     if (hasErrors) {
-        className = 'error'
+        className.push('error')
+    }
+    if (fullWidth) {
+        className.push('full-width')
     }
 
     return (
@@ -24,7 +28,7 @@ export default function Input({
             value={value}
             placeholder={placeholder}
             onChange={onChange}
-            className={className}
+            className={className.join(' ')}
         ></InputMask>
     )
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Users.Models.Input;
@@ -56,12 +57,24 @@ namespace Api.Users
         }
 
         [HttpGet("rolling_retention")]
-        public double GetRollingRetention()
+        public async Task<long> GetRollingRetentionAsync()
         {
-            var registeredWeekAgoOrEarly = _users.Select(u => DateTimeOffset.UtcNow.AddDays(-7) >= u.RegistrationDate).Count();
-            var lastVisitWeekAgoOrLater = _users.Select(u => DateTimeOffset.UtcNow.AddDays(-7) <= u.LastActivityDate).Count();
+            var lastVisitWeekAgoOrLater = new List<User>();
+            var registeredWeekAgoOrEarly = new List<User>();
 
-            return lastVisitWeekAgoOrLater / registeredWeekAgoOrEarly;
+            await _users.ForEachAsync(u =>
+            {
+                if (u.RegistrationDate.AddDays(7) <= u.LastActivityDate)
+                {
+                    lastVisitWeekAgoOrLater.Add(u);
+                }
+                if (DateTimeOffset.UtcNow.AddDays(-7) >= u.RegistrationDate)
+                {
+                    registeredWeekAgoOrEarly.Add(u);
+                }
+            });
+
+            return (long)((double)lastVisitWeekAgoOrLater.Count / registeredWeekAgoOrEarly.Count * 100 * 100);
         }
 
 

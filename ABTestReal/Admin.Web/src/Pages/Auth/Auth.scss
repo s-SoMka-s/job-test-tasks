@@ -43,5 +43,9 @@
             @include font-placeholder;
             color: $color-text-element;
         }
+
+        a {
+            text-decoration: none;
+        }
     }
 }

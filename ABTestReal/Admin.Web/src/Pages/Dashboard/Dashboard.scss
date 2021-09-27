@@ -31,3 +31,10 @@
         text-transform: uppercase;
     }
 }
+
+.dialog {
+    &__title {
+        @include font-header;
+        color: $color-text-header;
+    }
+}
