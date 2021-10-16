@@ -1,0 +1,32 @@
+@import '../../scss/variables';
+@import '../../scss/fonts';
+
+input {
+    text-align: center;
+    @include font-main;
+    color: $color-text-element;
+
+    border: 0.5px solid $color-delimeter;
+    border-radius: 20px;
+
+    width: 139px;
+    height: 28px;
+
+    &.full-width {
+        width: 278px;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &::placeholder {
+        @include font-placeholder;
+        color: $color-delimeter;
+    }
+
+    &.error {
+        color: $color-error;
+        border-color: $color-error;
+    }
+}

@@ -1,0 +1,51 @@
+@import '../../shared/scss/variables';
+@import '../../shared/scss/fonts';
+
+.auth-page {
+    height: 100vh;
+
+    background: $color-bg;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    &-wrapper {
+        background: $color-element-bg;
+        border-radius: 10px;
+        padding: 20px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h1 {
+            @include font-header-bold;
+            color: $color-logo;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            @include font-main;
+            color: $color-text-element;
+            margin-bottom: 40px;
+        }
+
+        input {
+            margin-bottom: 40px;
+        }
+
+        button {
+            margin-bottom: 20px;
+        }
+
+        p {
+            @include font-placeholder;
+            color: $color-text-element;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Users.Models.Input;
@@ -24,15 +25,15 @@ namespace Api.Users
         }
 
         [HttpGet("")]
-        public Task<UserSummary[]> GetAll()
+        public async Task<UserSummary[]> GetAll()
         {
-            var summaries = _users.Select(u => new UserSummary(u)).ToArrayAsync();
+            var summaries = await _users.Select(u => new UserSummary(u)).ToArrayAsync();
 
             return summaries;
         }
 
         [HttpPost("")]
-        public async Task<UserSummary> Add([FromBody] NewUserParameters parameters)
+        public async Task<UserSummary[]> Add([FromBody] NewUserParameters parameters)
         {
             if (parameters.LastActivityDate < parameters.RegistrationDate || parameters.LastActivityDate < 1 || parameters.RegistrationDate < 1)
             {
@@ -41,29 +42,43 @@ namespace Api.Users
 
             var @new = parameters.Build();
             
-            var added = await _users.AddAsync(@new);
+            await _users.AddAsync(@new);
             await _context.SaveChangesAsync();
 
-            return new UserSummary(added.Entity);
+            return await _users.Select(u => new UserSummary(u)).ToArrayAsync();
         }
 
-        [HttpPost("/delete")]
-        public async Task<bool> DeleteAsync([FromBody] UserDeleteParameters parameters)
+        [HttpDelete("")]
+        public async Task<UserSummary[]> DeleteAsync([FromQuery] UserSelectParameters parameters)
         {
-            return await deleteAllUsersAsync(parameters.UserIds);
+            await DeleteAllUsersAsync(parameters.UserIds);
+            
+            return await _users.Select(u => new UserSummary(u)).ToArrayAsync();
         }
 
         [HttpGet("rolling_retention")]
-        public double GetRollingRetention()
+        public async Task<long> GetRollingRetentionAsync()
         {
-            var registeredWeekAgoOrEarly = _users.Select(u => DateTimeOffset.UtcNow.AddDays(-7) >= u.RegistrationDate).Count();
-            var lastVisitWeekAgoOrLater = _users.Select(u => DateTimeOffset.UtcNow.AddDays(-7) <= u.LastActivityDate).Count();
+            var lastVisitWeekAgoOrLater = new List<User>();
+            var registeredWeekAgoOrEarly = new List<User>();
 
-            return lastVisitWeekAgoOrLater / registeredWeekAgoOrEarly;
+            await _users.ForEachAsync(u =>
+            {
+                if (u.RegistrationDate.AddDays(7) <= u.LastActivityDate)
+                {
+                    lastVisitWeekAgoOrLater.Add(u);
+                }
+                if (DateTimeOffset.UtcNow.AddDays(-7) >= u.RegistrationDate)
+                {
+                    registeredWeekAgoOrEarly.Add(u);
+                }
+            });
+
+            return (long)((double)lastVisitWeekAgoOrLater.Count / registeredWeekAgoOrEarly.Count * 100 * 100);
         }
 
 
-        private async Task<bool> deleteAllUsersAsync(long[] ids)
+        private async Task<bool> DeleteAllUsersAsync(long[] ids)
         {
             var flag = true;
             foreach(var id in ids)

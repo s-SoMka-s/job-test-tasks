@@ -1,0 +1,41 @@
+@import '../../scss/fonts';
+@import '../../scss/variables';
+
+table {
+    width: 100%;
+    text-align: center;
+
+    img {
+        cursor: pointer;
+    }
+
+    th,
+    td {
+        @include font-main;
+        color: $color-text-element;
+
+        padding: 15px 65px;
+    }
+
+    th:first-child {
+        border-top-left-radius: 10px;
+    }
+
+    th:last-child {
+        border-top-right-radius: 10px;
+    }
+
+    tr {
+        background: $color-element-bg;
+        border-bottom: 0.5px solid $color-delimeter;
+    }
+
+    tr:last-child {
+        td:first-child {
+            border-bottom-left-radius: 10px;
+        }
+        td:last-child {
+            border-bottom-right-radius: 10px;
+        }
+    }
+}
