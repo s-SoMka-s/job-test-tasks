@@ -11,4 +11,4 @@
 
 -  task description: https://www.oblakogroup.ru/assignment/full-stack-developer
 
-- web app url
+- web app url: https://cryptic-beyond-48797.herokuapp.com/projects
